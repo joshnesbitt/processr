@@ -1,49 +1,17 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'processr'))
 
-# Compresses all assets into a single JS file.
-
-class Compressor
-  class << self
-    def root=(path); @path = path; end
-    def root; @path; end
-
-    def output_file=(path); @output_file = path; end
-    def output_file; @output_file; end
-  end
-  
-  attr_accessor :buffer
-  
-  def initialize
-    self.buffer = ""
-  end
-  
-  def compress!
-    write_buffer_to_file!
-    true
-  end
-  
-  def <<(file)
-    self.buffer << File.open(File.join(self.class.root, file)).read
-  end
-  
-  private
-  def write_buffer_to_file!
-    output_file = File.open(self.class.output_file, "w+")
-    output_file.puts self.buffer
-    output_file.close
-  end
+Processr.configure do |config|
+  config.root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+  config.out  = File.join(config.root, 'examples', 'all')
 end
 
-puts "* Compressing..."
+puts "* Processing"
 
-ROOT                   = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-Compressor.root        = ROOT
-Compressor.output_file = File.join(ROOT, 'build', 'compressed.js')
+# Simple text concatenation.
 
-# Add in filters here
+processor = Processr.new
+processor << File.join('spec', 'fixtures', 'one.js')
+processor << File.join('spec', 'fixtures', 'two.js')
+processor.process!
 
-compressor = Compressor.new
-# compressor << 'file.js'
-compressor.compress!
-
-puts "* Compressed!"
+puts "* Done!"
