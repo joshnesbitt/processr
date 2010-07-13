@@ -46,3 +46,23 @@ processor = Processr.new
 processor.add_filter(TextileFilter)
 processor << 'A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.'
 puts processor.process!
+
+puts "Simple language filter using input:"
+
+LanguageFilter = lambda do |buffer|
+  lookup = [
+    "fucking",
+    "hate"
+  ]
+  
+  lookup.each do |word|
+    buffer.gsub!(word, ("*" * word.size))
+  end
+  
+  buffer
+end
+
+processor = Processr.new
+processor.add_filter(LanguageFilter)
+processor << 'I fucking hate bad language.'
+puts processor.process!
