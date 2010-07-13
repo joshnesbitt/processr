@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{processr}
-  s.version = "0.5.0"
+  s.version = "0.9.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josh Nesbitt"]
@@ -23,15 +23,12 @@ Gem::Specification.new do |s|
      "TODO",
      "VERSION",
      "examples/all.rb",
-     "examples/one.txt",
-     "examples/output.txt",
-     "examples/text.textile",
-     "examples/two.txt",
      "lib/processr.rb",
      "processr.gemspec",
      "readme.rdoc",
-     "spec/fixtures/one.js",
-     "spec/fixtures/two.js",
+     "spec/fixtures/one.txt",
+     "spec/fixtures/output.txt",
+     "spec/fixtures/two.txt",
      "spec/lib/processr_spec.rb",
      "spec/spec_helper.rb",
      "spec/watch.rb"
