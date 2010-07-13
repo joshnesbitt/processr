@@ -9,7 +9,9 @@
 
 == Overview
 
-Processr is a simple text processing and concatenation library. It takes a number of input files and outputs a single file with the result. Text can be passed through filters to modify the output.
+Processr is a simple text processing and concatenation library. It takes a number of input strings (or files) and outputs a single string (or file) containing the result. Text can be passed through filters to modify the output.
+
+
 
 == Installation
 
@@ -17,7 +19,10 @@ The project is hosted on rubygems.org. Getting it is simple:
 
   gem install processr
 
+
+
 == Usage
+
 
 === Configuration
 
@@ -28,21 +33,37 @@ Use the configuration block to setup Processr
     config.out  = File.join(config.root, 'output.txt')
   end
 
+If an output file is specified the result will be written to that file, otherwise the result will be returned directly from the #process! method.
+
+
 === Basic
 
   processor = Processr.new
-  processor << 'input_one.txt'
-  processor << 'input_two.txt'
-  processor.process!
+  processor << "Some\n"
+  processor << "Text"
+  processor.process! # => "Some\nText"
 
-This will result in a single file being output with the contents of all files inputted.
+This will result in a concatenated string being returned.
 
-=== filters
+
+=== Basic (from file)
+
+  processor = Processr.new
+  processor.files << 'input_one.txt'
+  processor.files << 'input_two.txt'
+  processor.process! # => contents of input_one.txt and input_two.txt
+
+This will result in the contents of input_one.txt and input_two.txt returned.
+
+
+=== Filters
 
 Filters can be used to modify the output of a processing session. A filter is any object that responds to #call. Filters take a single argument (the input buffer) and must return the modified buffer for further processing. For example:
 
   lambda do |buffer|
     # ...do something with buffer here...
+    
+    buffer
   end
 
 Or
@@ -51,6 +72,8 @@ Or
     
     def self.call(buffer)
       # ...do something with buffer here...
+      
+      buffer
     end
     
   end
@@ -74,8 +97,8 @@ You can register a filter by calling #add_filter on an instance of Processr. A f
   
   processor = Processr.new
   processor.add_filter(TextileFilter)
-  processor << 'text.textile'
-  processor.process!
+  processor << 'A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.'
+  processor.process! # => "A <em>simple</em> example of a <a href="http://www.textism.com/tools/textile/">textile</a> parser using a <strong>filter</strong>."
 
 Run the examples for more information.
 

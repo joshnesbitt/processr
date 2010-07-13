@@ -1,1 +1,0 @@
-A <em>simple</em> example of a <a href="http://www.textism.com/tools/textile/">textile</a> parser using a <strong>filter</strong>.

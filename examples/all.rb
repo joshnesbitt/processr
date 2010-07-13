@@ -5,21 +5,27 @@ require 'processr'
 
 Processr.configure do |config|
   config.root = File.expand_path(File.dirname(__FILE__))
-  config.out  = File.join(config.root, 'output.txt')
+  config.out  = nil
 end
 
 
-
-# Simple text concatenation.
+puts "Simple text concatenation:"
 
 processor = Processr.new
-processor << 'one.txt'
-processor << 'two.txt'
-processor.process!
+processor << "Some Text\n"
+processor << "Some More Text"
+puts processor.process!
 
 
+puts "Simple text concatenation form files:"
 
-# Simple textile filter.
+processor = Processr.new
+processor.files << File.join('..', 'spec', 'fixtures', 'one.txt')
+processor.files << File.join('..', 'spec', 'fixtures', 'two.txt')
+puts processor.process!
+
+
+puts "Simple textile filter using input:"
 
 TextileFilter = lambda do |buffer|
   
@@ -38,7 +44,5 @@ end
 
 processor = Processr.new
 processor.add_filter(TextileFilter)
-processor << 'text.textile'
-processor.process!
-
-puts "* Look in output.txt to see the result of this example."
+processor << 'A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.'
+puts processor.process!
