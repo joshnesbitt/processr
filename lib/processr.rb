@@ -13,14 +13,24 @@ class Processr
     end
   end
   
-  attr_accessor :buffer
+  attr_accessor :buffer, :filters
   
   def initialize
-    self.buffer = ""
+    self.buffer  = ""
+    self.filters = []
+  end
+  
+  def add_filter(filter)
+    self.filters << filter
   end
   
   def process!
-    write_buffer_to_file!
+    self.filters.each do |filter|
+      self.buffer = filter.call(self.buffer)
+    end
+    
+    write_buffer!
+    
     true
   end
   
@@ -29,7 +39,7 @@ class Processr
   end
   
   private
-  def write_buffer_to_file!
+  def write_buffer!
     output_file = File.open(self.class.out, "w+")
     output_file.puts self.buffer
     output_file.close

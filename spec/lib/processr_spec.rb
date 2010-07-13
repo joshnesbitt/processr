@@ -30,4 +30,5 @@ describe Processr do
     Processr.root.should == root
     Processr.out.should  == out
   end
+  
 end

@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "processr"
-    gem.summary = ""
-    gem.description = ""
+    gem.summary = "A simple text processing library"
+    gem.description = "Processr provides a really simple interface to processing a set of text files. Through the use of filters you can further modify output before writing the contents to a file."
     gem.email = "josh@josh-nesbitt.net"
     gem.homepage = "http://github.com/joshnesbitt/processr"
     gem.authors = ["Josh Nesbitt"]

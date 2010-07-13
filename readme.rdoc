@@ -9,21 +9,75 @@
 
 == Overview
 
-TODO...
-
-
+Processr is a simple text processing and concatenation library. It takes a number of input files and outputs a single file with the result. Text can be passed through filters to modify the output.
 
 == Installation
 
 The project is hosted on rubygems.org. Getting it is simple:
 
-TODO...
-
-
+  gem install processr
 
 == Usage
 
-TODO...
+=== Configuration
+
+Use the configuration block to setup Processr
+
+  Processr.configure do |config|
+    config.root = File.expand_path(File.dirname(__FILE__))
+    config.out  = File.join(config.root, 'output.txt')
+  end
+
+=== Basic
+
+  processor = Processr.new
+  processor << 'input_one.txt'
+  processor << 'input_two.txt'
+  processor.process!
+
+This will result in a single file being output with the contents of all files inputted.
+
+=== filters
+
+Filters can be used to modify the output of a processing session. A filter is any object that responds to #call. Filters take a single argument (the input buffer) and must return the modified buffer for further processing. For example:
+
+  lambda do |buffer|
+    # ...do something with buffer here...
+  end
+
+Or
+
+  class MyFilter
+    
+    def self.call(buffer)
+      # ...do something with buffer here...
+    end
+    
+  end
+
+You can register a filter by calling #add_filter on an instance of Processr. A further example would be a really simple textile parser:
+  
+  TextileFilter = lambda do |buffer|
+    
+    lookup = {
+      /_(.*)_/         => '<em>\1</em>',
+      /\*(.*)\*/       => '<strong>\1</strong>',
+      /\"(.*)\":(\S*)/ => '<a href="\2">\1</a>'
+    }
+    
+    lookup.each_pair do |regex, replacement|
+      buffer.gsub!(regex, replacement)
+    end
+    
+    buffer
+  end
+  
+  processor = Processr.new
+  processor.add_filter(TextileFilter)
+  processor << 'text.textile'
+  processor.process!
+
+Run the examples for more information.
 
 
 
