@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{processr}
-  s.version = "0.9.0"
+  s.version = "0.9.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josh Nesbitt"]
   s.date = %q{2010-07-13}
-  s.description = %q{Processr provides a really simple interface to processing a set of text files. Through the use of filters you can further modify output before writing the contents to a file.}
+  s.description = %q{Processr is a simple text processing and concatenation library. It takes a number of input strings (or files) and outputs a single string (or file) containing the result. Text can be passed through filters to modify the output.}
   s.email = %q{josh@josh-nesbitt.net}
   s.extra_rdoc_files = [
     "LICENSE",
