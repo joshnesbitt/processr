@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "processr"
     gem.summary = "A simple text processing library"
-    gem.description = "Processr provides a really simple interface to processing a set of text files. Through the use of filters you can further modify output before writing the contents to a file."
+    gem.description = "Processr is a simple text processing and concatenation library. It takes a number of input strings (or files) and outputs a single string (or file) containing the result. Text can be passed through filters to modify the output."
     gem.email = "josh@josh-nesbitt.net"
     gem.homepage = "http://github.com/joshnesbitt/processr"
     gem.authors = ["Josh Nesbitt"]
