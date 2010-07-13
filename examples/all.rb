@@ -1,4 +1,7 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'processr'))
+require 'rubygems'
+require 'processr'
+
+# Setup
 
 Processr.configure do |config|
   config.root = File.expand_path(File.dirname(__FILE__))
