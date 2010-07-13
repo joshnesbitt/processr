@@ -1,0 +1,1 @@
+A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.

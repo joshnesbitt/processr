@@ -1,17 +1,41 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'processr'))
 
 Processr.configure do |config|
-  config.root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  config.out  = File.join(config.root, 'examples', 'all')
+  config.root = File.expand_path(File.dirname(__FILE__))
+  config.out  = File.join(config.root, 'output.txt')
 end
 
-puts "* Processing"
+
 
 # Simple text concatenation.
 
 processor = Processr.new
-processor << File.join('spec', 'fixtures', 'one.js')
-processor << File.join('spec', 'fixtures', 'two.js')
+processor << 'one.txt'
+processor << 'two.txt'
 processor.process!
 
-puts "* Done!"
+
+
+# Simple textile filter.
+
+TextileFilter = lambda do |buffer|
+  
+  lookup = {
+    /_(.*)_/         => '<em>\1</em>',
+    /\*(.*)\*/       => '<strong>\1</strong>',
+    /\"(.*)\":(\S*)/ => '<a href="\2">\1</a>'
+  }
+  
+  lookup.each_pair do |regex, replacement|
+    buffer.gsub!(regex, replacement)
+  end
+  
+  buffer
+end
+
+processor = Processr.new
+processor.add_filter(TextileFilter)
+processor << 'text.textile'
+processor.process!
+
+puts "* Look in output.txt to see the result of this example."
