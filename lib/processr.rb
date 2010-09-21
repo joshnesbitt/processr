@@ -14,12 +14,13 @@ class Processr
     end
   end
   
-  attr_accessor :buffer, :files, :filters
+  attr_accessor :buffer, :files, :filters, :file_filters
   
   def initialize
     self.buffer  = ""
     self.files   = []
     self.filters = []
+    self.file_filters = []
   end
   
   def add_filter(filter)
@@ -43,8 +44,14 @@ class Processr
     end
   end
   
-  def read_file_to_buffer(file)
-    self.buffer << File.open(File.join(self.class.root, file)).read
+  def read_file_to_buffer(filename)
+    contents = File.open(File.join(self.class.root, filename)).read
+    
+    self.file_filters.each do |filter|
+      contents = filter.call(filename, contents)
+    end
+    
+    self.buffer << contents
   end
   
   def process_filters

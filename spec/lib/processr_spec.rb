@@ -78,4 +78,13 @@ describe Processr do
     @processor.process!.should == "I ******* **** bad language."
   end
   
+  it "should allow the use of inbetween filters to modify file buffer content" do
+    Processr.out = nil
+    @processor.buffer.should == ""
+    @processor.file_filters << lambda { |filename, contents| contents + "{mod}" }
+    @processor.files << File.join('fixtures', 'one.txt')
+    @processor.files << File.join('fixtures', 'two.txt')
+    @processor.process!.should == "one\n{mod}two\n{mod}"
+  end
+  
 end

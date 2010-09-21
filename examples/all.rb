@@ -1,5 +1,6 @@
-require 'rubygems'
-require 'processr'
+#require 'rubygems'
+#require 'processr'
+require '../lib/processr'
 
 # Setup
 
@@ -17,7 +18,7 @@ processor << "Some More Text"
 puts processor.process!
 
 
-puts "Simple text concatenation form files:"
+puts "Simple text concatenation from files:"
 
 processor = Processr.new
 processor.files << File.join('..', 'spec', 'fixtures', 'one.txt')
@@ -47,6 +48,7 @@ processor.add_filter(TextileFilter)
 processor << 'A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.'
 puts processor.process!
 
+
 puts "Simple language filter using input:"
 
 LanguageFilter = lambda do |buffer|
@@ -65,4 +67,18 @@ end
 processor = Processr.new
 processor.add_filter(LanguageFilter)
 processor << 'I fucking hate bad language.'
+puts processor.process!
+
+
+puts "Simple text concatenation from files with file filters:"
+
+InBetweenFilter = lambda do |filename, contents|
+  puts "Filter for #{filename}"
+  contents
+end
+
+processor = Processr.new
+processor.file_filters << InBetweenFilter
+processor.files << File.join('..', 'spec', 'fixtures', 'one.txt')
+processor.files << File.join('..', 'spec', 'fixtures', 'two.txt')
 puts processor.process!
