@@ -27,6 +27,10 @@ class Processr
     self.filters << filter
   end
   
+  def add_file_filter(filter)
+    self.file_filters << filter
+  end
+  
   def process!
     read_files
     process_filters

@@ -81,7 +81,7 @@ describe Processr do
   it "should allow the use of inbetween filters to modify file buffer content" do
     Processr.out = nil
     @processor.buffer.should == ""
-    @processor.file_filters << lambda { |filename, contents| contents + "{mod}" }
+    @processor.add_file_filter(lambda { |filename, contents| contents + "{mod}" })
     @processor.files << File.join('fixtures', 'one.txt')
     @processor.files << File.join('fixtures', 'two.txt')
     @processor.process!.should == "one\n{mod}two\n{mod}"

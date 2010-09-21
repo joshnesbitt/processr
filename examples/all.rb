@@ -78,7 +78,7 @@ InBetweenFilter = lambda do |filename, contents|
 end
 
 processor = Processr.new
-processor.file_filters << InBetweenFilter
+processor.add_file_filter(InBetweenFilter)
 processor.files << File.join('..', 'spec', 'fixtures', 'one.txt')
 processor.files << File.join('..', 'spec', 'fixtures', 'two.txt')
 puts processor.process!
