@@ -100,6 +100,21 @@ You can register a filter by calling #add_filter on an instance of Processr. A f
   processor << 'A _simple_ example of a "textile":http://www.textism.com/tools/textile/ parser using a *filter*.'
   processor.process! # => "A <em>simple</em> example of a <a href="http://www.textism.com/tools/textile/">textile</a> parser using a <strong>filter</strong>."
 
+=== File Filters
+
+You can also add filters to be run when a file is read to the buffer. This behaves similarly to a normal filter, and must return the file contents to the buffer:
+
+  InBetweenFilter = lambda do |filename, contents|
+    puts "Filter for #{filename}"
+    contents
+  end
+  
+  processor = Processr.new
+  processor.add_file_filter(InBetweenFilter)
+  processor.files << File.join('..', 'spec', 'fixtures', 'one.txt')
+  processor.files << File.join('..', 'spec', 'fixtures', 'two.txt')
+  puts processor.process! => Filter for ../spec/fixtures/one.txt etc...
+  
 Run the examples for more information.
 
 
